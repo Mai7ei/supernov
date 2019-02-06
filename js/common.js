@@ -43,27 +43,46 @@ $(document).ready(function(){
 
      
      $(".slider_gallery_kyhnia").slick({
-      slidesToShow: 3,
+      slidesToShow: 4,
       prevArrow:'<button class="PrevArrow"><div class="arrow-left"><div class="arrow-top"></div><div class="arrow-bottom"></div><div class="arrow-center"></div></div></button>',
       nextArrow:'<button class="NextArrow"><div class="arrow-right"><div class="arrow-top_1"></div><div class="arrow-bottom_1"></div><div class="arrow-center_1"></div></button>',
     });
-    // $('[href="#home"]').on('shown.bs.tab', function (e) {
-    //   console.log('click Home');
-    //   $('.slider_news').resize();
-    // });
-    // $('[href="#profile"]').on('shown.bs.tab', function (e) {
-    //   console.log('click Profile');
-    //   $('.slider_statia').resize();
-    // });
+
+      var $slider = $('.slider_gallery_kyhnia');
+      var $progressBar = $('.progress');
+      var $progressBarLabel = $( '.slider__label' );
+
+      $slider.on('init beforeChange', function(event, slick, currentSlide, nextSlide = 0) {
+        var calc = ( (nextSlide + 1) / (slick.slideCount) ) * 100;
+
+        $progressBar
+          .css('background-size',  calc + '% 100%')
+          .attr('aria-valuenow', calc  );
+
+        $progressBarLabel.text( calc + '% completed' );
+      });
 
 
-    // $('[href="#home"]').on('shown.bs.tab', function (e) {
-    //         $('.slider_news').resize();
-    //     });
-    // $('[href="#profile"]').on('shown.bs.tab', function (e) {
-    //       $('.slider_statia').resize();
-    //   });
 
+     
+     $(".slider_gallery_shkaf").slick({
+      slidesToShow: 4,
+      prevArrow:'<button class="PrevArrow"><div class="arrow-left"><div class="arrow-top"></div><div class="arrow-bottom"></div><div class="arrow-center"></div></div></button>',
+      nextArrow:'<button class="NextArrow"><div class="arrow-right"><div class="arrow-top_1"></div><div class="arrow-bottom_1"></div><div class="arrow-center_1"></div></button>',
+    });
+    var $slider = $('.slider_gallery_shkaf');
+      var $progressBar = $('.progress');
+      var $progressBarLabel = $( '.slider__label' );
+
+      $slider.on('init beforeChange', function(event, slick, currentSlide, nextSlide = 0) {
+        var calc = ( (nextSlide + 1) / (slick.slideCount) ) * 100;
+
+        $progressBar
+          .css('background-size',  calc + '% 100%')
+          .attr('aria-valuenow', calc  );
+
+        $progressBarLabel.text( calc + '% completed' );
+      });
 
 
 
@@ -97,14 +116,14 @@ function navtitle(){
 $('.pagepiling').pagepiling({
 	 menu: null,
         direction: 'vertical',
-        verticalCentered: true,
+        verticalCentered: false,
         sectionsColor: [],
          anchors: ['section1', 'section2', 'section3', 'section4', 'section5','section6','section7','section8'],
-        scrollingSpeed: 700,
+        scrollingSpeed: 100,
         easing: 'linear',
         loopBottom: false,
         loopTop: false,
-        css3: true,
+        
         navigation: {
             'textColor': '#000',
             'bulletsColor': '#000',
@@ -112,11 +131,11 @@ $('.pagepiling').pagepiling({
             'tooltips': ['СТАРТОВАЯ', 'КТО МЫ', 'ТОЛЬКО ФАКТЫ', 'МАТЕРИАЛЫ И ТЕХНОЛОГИИ','ГАЛЕРЕЯ РАБОТ','ОТПРАВИТЬ ЗАЯВКУ','НОВОСТИ И СТАТЬИ','КОНТАКТЫ']
         },
        	normalScrollElements: null,
-        normalScrollElementTouchThreshold: 5,
-        touchSensitivity: 5,
+        normalScrollElementTouchThreshold: 2,
+        touchSensitivity: 10,
         keyboardScrolling: true,
         sectionSelector: '.section',
-        animateAnchor: false,
+        animateAnchor: true,
         afterLoad: function(){
           navtitle();
         },
@@ -183,60 +202,71 @@ $('.pagepiling').pagepiling({
     });
 
 // Табы новость
-    var tabContainer = document.querySelector('.nav-tabs'); // Конейнер с табами, на котором будем ловить клик
-    // Элементы, которые надо будет сделать .active
-    var tabButton = document.querySelectorAll('.nav-item');
-    var tabContentItem = document.querySelectorAll('.tab-content__item');
-    var tabLink = document.querySelectorAll('.nav-link');
-    // /Элементы, которые надо будет сделать .active
-    var tabContent = document.querySelector('.tab-content'); // Определяем родительский конейтнер
-    var slickSliderInTab = document.querySelector('.tab-content .slick-news'); // Определяем слайдер
-    var tabContentItemHeight = slickSliderInTab.offsetHeight; // Берем высоту слайдера
-    tabContent.style.height = tabContentItemHeight + 'px'; // Добавляем высоту слайдера родительсткому контенеру
-    var tabLength = tabButton.length; // Количество табов
+  var newsTabs = () => {
+      var tabContainer = document.querySelector('.container_tabs .nav-tabs'); // Конейнер с табами, на котором будем ловить клик
+      // Элементы, которые надо будет сделать .active
+      var tabButton = document.querySelectorAll('.container_tabs .nav-item');
+      var tabContentItem = document.querySelectorAll('.container_tabs .tab-content__item');
+      var tabLink = document.querySelectorAll('.container_tabs .nav-link');
+      // /Элементы, которые надо будет сделать .active
+      var tabContent = document.querySelector('.container_tabs .tab-content.tab-content_news'); // Определяем родительский конейтнер
+      var slickSliderInTab = document.querySelector('.container_tabs .tab-content .slick-news'); // Определяем слайдер
+      var tabContentItemHeight = slickSliderInTab.offsetHeight; // Берем высоту слайдера
+      tabContent.style.height = tabContentItemHeight + 'px'; // Добавляем высоту слайдера родительсткому контенеру
+      var tabLength = tabButton.length; // Количество табов
 
-    tabContainer.onclick = (e) => {
-      var target = e.target;
-      for (var i = 0; i < tabLength; i++) {
-        tabButton[i].classList.remove('active');
-        tabContentItem[i].classList.remove('active');
-        tabLink[i].classList.remove('active');
-        if (tabLink[i] == target) {
-          tabButton[i].classList.add('active');
-          tabContentItem[i].classList.add('active');
-          tabLink[i].classList.add('active');
+      tabContainer.onclick = (e) => {
+        var target = e.target;
+        if (target.classList.contains('nav-link')) {
+          for (var i = 0; i < tabLength; i++) {
+            tabButton[i].classList.remove('active');
+            tabContentItem[i].classList.remove('active');
+            tabLink[i].classList.remove('active');
+            if (tabLink[i] == target) {
+              tabButton[i].classList.add('active');
+              tabContentItem[i].classList.add('active');
+              tabLink[i].classList.add('active');
+            }
+          }
         }
       }
     }
+    newsTabs();
 // /Табы
 
 // Табы галерея
+  var galleryTabs = () => {
     var tabContainer = document.querySelector('.nav-tabs_g'); // Конейнер с табами, на котором будем ловить клик
     // Элементы, которые надо будет сделать .active
-    var tabButton = document.querySelectorAll('.nav-item');
-    var tabContentItem = document.querySelectorAll('.tab-content__item');
-    var tabLink = document.querySelectorAll('.nav-link');
+    var tabButton = document.querySelectorAll('.section_slider_gallery .nav-item');
+    var tabContentItem = document.querySelectorAll('.section_slider_gallery .tab-content__item');
+    var tabLink = document.querySelectorAll('.section_slider_gallery .nav-link');
     // /Элементы, которые надо будет сделать .active
-    var tabContent = document.querySelector('.tab-content'); // Определяем родительский конейтнер
-    var slickSliderInTab = document.querySelector('.tab-content .slick_gallary'); // Определяем слайдер
+    var tabContent = document.querySelector('.section_slider_gallery .tab-content'); // Определяем родительский конейтнер
+    var slickSliderInTab = document.querySelector('.tab-content .slider_gallery_all'); // Определяем слайдер
     var tabContentItemHeight = slickSliderInTab.offsetHeight; // Берем высоту слайдера
     tabContent.style.height = tabContentItemHeight + 'px'; // Добавляем высоту слайдера родительсткому контенеру
     var tabLength = tabButton.length; // Количество табов
 
     tabContainer.onclick = (e) => {
       var target = e.target;
-      for (var i = 0; i < tabLength; i++) {
-        tabButton[i].classList.remove('active');
-        tabContentItem[i].classList.remove('active');
-        tabLink[i].classList.remove('active');
-        if (tabLink[i] == target) {
-          tabButton[i].classList.add('active');
-          tabContentItem[i].classList.add('active');
-          tabLink[i].classList.add('active');
+      if (target.classList.contains('nav-link')) {
+        for (var i = 0; i < tabLength; i++) {
+          tabButton[i].classList.remove('active');
+          tabContentItem[i].classList.remove('active');
+          tabLink[i].classList.remove('active');
+          if (tabLink[i] == target) {
+            tabButton[i].classList.add('active');
+            tabContentItem[i].classList.add('active');
+            tabLink[i].classList.add('active');
+          }
         }
       }
     }
+  }
+  galleryTabs();
 // /Табы
+
 
 
 $('.kitchen_blok_wrapper').hover(
@@ -300,7 +330,7 @@ $(document).ready(function() {
       var $progressBarLabel = $( '.slider__label' );
 
       $slider.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
-        var calc = ( (nextSlide + 1) / (slick.slideCount- 1) ) * 100;
+        var calc = ( (nextSlide + 1) / (slick.slideCount) ) * 100;
 
         $progressBar
           .css('background-size',  calc + '% 100%')
@@ -311,7 +341,7 @@ $(document).ready(function() {
 
       $slider.slick({
         slidesToShow:4,
-        infinite: false,
+        infinite: true,
       slidesToScroll:1,
       animation: true,
       prevArrow:'<button class="PrevArrow"><div class="arrow-left"><div class="arrow-top"></div><div class="arrow-bottom"></div><div class="arrow-center"></div></div></button>',
